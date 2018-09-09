@@ -1,0 +1,30 @@
+{
+  "name": "@mixint/serverfailsoft",
+  "version": "1.0.0",
+  "description": "An extension of ServerResponse that catches errors of the stream being piped to it and closes the connection informatively.",
+  "main": "ServerFailSoft.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jazzyjackson/ServerFailSoft.git"
+  },
+  "keywords": [
+    "http",
+    "pipe",
+    "error",
+    "pipeline",
+    "catch",
+    "enoent",
+    "eacces",
+    "response",
+    "code"
+  ],
+  "author": "Colten Jackson",
+  "license": "SEE LICENSE IN CONTINUITY.LICENSE",
+  "bugs": {
+    "url": "https://github.com/jazzyjackson/ServerFailSoft/issues"
+  },
+  "homepage": "https://github.com/jazzyjackson/ServerFailSoft#readme"
+}
