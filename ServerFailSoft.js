@@ -1,3 +1,11 @@
+/**
+---
+author: Colten Jackson
+license: Continuity
+version: 2.1.0
+...
+**/
+
 module.exports = class ServerFailSoft extends require('http').ServerResponse {
     constructor(req){
         super(req)
