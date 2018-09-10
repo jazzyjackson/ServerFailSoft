@@ -13,7 +13,6 @@ module.exports = class ServerFailSoft extends require('http').ServerResponse {
             source.prependOnceListener('data', () => {
                 this.writeHead(source.statusCode || 200, source.headers || {})
             }).once('error', error => {
-                if(this.headersSent) return this.emit('error', "Error thrown after data sent to client. Cannot set headers after they're sent.")
                 let errorResponse = JSON.stringify({
                     errMsg: error.toString(),
                     errObj: error, // Error Object may be empty
@@ -23,7 +22,7 @@ module.exports = class ServerFailSoft extends require('http').ServerResponse {
                     gid: process.getgid(),
                     groups: process.getgroups()
                 }, null, 2) // prettyprint with 2 space indent
-                this.writeHead(
+                this.headersSent || this.writeHead(
                     error.code == 'ENOENT'  ? 404 : // error no entity
                     error.code == 'ENOTDIR' ? 404 : // directory doesnt exist
                     error.code == 'ERANGE'  ? 416 : // range not satisfiable
