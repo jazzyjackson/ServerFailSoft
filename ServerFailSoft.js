@@ -13,14 +13,20 @@ module.exports = class ServerFailSoft extends require('http').ServerResponse {
             source.prependOnceListener('data', () => {
                 this.writeHead(source.statusCode || 200, source.headers || {})
             }).once('error', error => {
+                console.log(this.connection.parser.incoming.url)
+                console.log(this.connection.parser.incoming.method)
                 let errorResponse = JSON.stringify({
+                    source: source.constructor.name,
                     errMsg: error.toString(),
                     errObj: error, // Error Object may be empty, OK.
+                    // url: source.source.url,
+                    method: this.connection.parser.incoming.method,
+                    url: this.connection.parser.incoming.url,
                     versions: process.versions,
                     platform: process.platform,
                     uid: process.getuid(),
                     gid: process.getgid(),
-                    groups: process.getgroups()
+                    groups: process.getgroups(),
                 }, null, 2) // prettyprint with 2 space indent
                 this.headersSent || this.writeHead(
                     error.code == 'ENOENT'  ? 404 : // error no entity
