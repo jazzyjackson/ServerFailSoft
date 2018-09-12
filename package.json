@@ -1,6 +1,6 @@
 {
   "name": "serverfailsoft",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "An extension of ServerResponse that catches errors of the stream being piped to it and closes the connection informatively.",
   "main": "ServerFailSoft.js",
   "scripts": {
