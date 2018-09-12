@@ -13,8 +13,6 @@ module.exports = class ServerFailSoft extends require('http').ServerResponse {
             source.prependOnceListener('data', () => {
                 this.writeHead(source.statusCode || 200, source.headers || {})
             }).once('error', error => {
-                console.log(this.connection.parser.incoming.url)
-                console.log(this.connection.parser.incoming.method)
                 let errorResponse = JSON.stringify({
                     source: source.constructor.name,
                     errMsg: error.toString(),
