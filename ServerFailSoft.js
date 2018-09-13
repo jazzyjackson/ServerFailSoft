@@ -2,7 +2,6 @@
 ---
 author: Colten Jackson
 license: Continuity
-version: 2.1.0
 ...
 **/
 
