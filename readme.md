@@ -3,9 +3,9 @@
 
 If you open a stream and pipe it to ServerFailSoft, those bytes are streamed to the client, just as they would with the base class `ServerResponse`.
 
-The first bytes piped to ServerFailSoft will trigger the `.writeHead` function, which will attempt to read `statusCode` and `headers` properties from the source.
+The first bytes piped to ServerFailSoft will trigger the `.writeHead` function, which will attempt to read `statusCode` and `headers` properties from the source. It also attempts to writeHead from source on the `end` event, in case there wasn't any data.
 
-If the source throws an error (before bytes are sent!), ServerFailSoft will catch it and prepare an informative error response. (Perhaps TOO informative for your tastes if you wish to keep your software versions to yourself, but I prefer to advertise that my server is up to date.)
+If the source throws an error (before bytes are sent!), ServerFailSoft will catch it and prepare an informative error response. (Perhaps TOO informative for your tastes if you wish to keep your software versions to yourself, but I prefer to advertise that my server is up-to-date.)
 
 ### Usage
 Since Node v9.6.0, http.createServer supports an options argument to override the IncomingMessage and ServerResponse constructed for each request.
