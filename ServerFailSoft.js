@@ -11,13 +11,20 @@ module.exports = class ServerFailSoft extends require('http').ServerResponse {
         super(req)
         this.on('pipe', source => {
             source.prependOnceListener('data', () => {
-                this.writeHead(source.statusCode || 200, source.headers || {})
+                this.headersSent || this.writeHead(
+                    source.statusCode || 200,
+                    source.headers || {}
+                )
+            }).prependOnceListener('end', () => {
+                this.headersSent || this.writeHead(
+                    source.statusCode || 200,
+                    source.headers || {}
+                )
             }).once('error', error => {
                 let errorResponse = JSON.stringify({
                     source: source.constructor.name,
                     errMsg: error.toString(),
                     errObj: error, // Error Object may be empty, OK.
-                    // url: source.source.url,
                     method: this.connection.parser.incoming.method,
                     url: this.connection.parser.incoming.url,
                     versions: process.versions,
@@ -37,6 +44,8 @@ module.exports = class ServerFailSoft extends require('http').ServerResponse {
                 })
                 // the statuscode and proper JSON response can only occur if you emit
                 // an error before writing any bytes. So it's not ideal to
+                // write the error regardless of what was sent before but its better
+                // than swallowing the error without a trace.
                 this.end(errorResponse)
             })
         })
