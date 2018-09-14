@@ -21,7 +21,7 @@ http.createServer({
 ```
 You can run `node examples/staticserver.js` to try this out.
 
-See more details in the [transflect](/jazzyjackson/transflect) repository - Translfect is a Transform stream that allows you to safely open requisite streams to respond to requests while avoiding memory and file descriptor leaks.
+See more details in the [transflect](http://github.com/mixint/transflect) repository - Translfect is a Transform stream that allows you to safely open requisite streams to respond to requests while avoiding memory and file descriptor leaks.
 
 An example server where PassThrough (like Transform but without the _transform) is used to create a pipeline:
 
