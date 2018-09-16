@@ -1,14 +1,21 @@
 /**
----
-author: Colten Jackson
-license: Continuity
-...
-**/
-
-module.exports = class ServerFailSoft extends require('http').ServerResponse {
-    constructor(req){
-        super(req)
-        this.on('pipe', source => {
+ * @author Colten Jackson
+ * ServerFailSoft attaches an error handler to a source stream piped to it.
+ * It will pass on the .statusCode and .headers of the source stream once
+ * EITHER the first byte is received, or the the end event is received.
+ * Source streams should be designed to error sooner rather than later.
+ * If an error is received before any bytes are sent, a proper statuscode
+ * can be transmitted and informative error object can be sent in whole.
+ *
+ * If, however, something goes wrong halfway through writing a response,
+ * I will still concatenate the JSON error string to whatever bytes were sent.
+ * This is not ideal, but probably better than swallowing the error silently.
+ */
+const http = require('http')
+module.exports = class ServerFailSoft extends http.ServerResponse {
+    constructor(res){
+        super(res)
+        this.once('pipe', source => {
             source.prependOnceListener('data', () => {
                 this.headersSent || this.writeHead(
                     source.statusCode || 200,
@@ -41,10 +48,6 @@ module.exports = class ServerFailSoft extends require('http').ServerResponse {
                     'Content-Length': Buffer.byteLength(errorResponse),
                     'Content-Type': 'application/json',
                 })
-                // the statuscode and proper JSON response can only occur if you emit
-                // an error before writing any bytes. So it's not ideal to
-                // write the error regardless of what was sent before but its better
-                // than swallowing the error without a trace.
                 this.end(errorResponse)
             })
         })
