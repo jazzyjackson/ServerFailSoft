@@ -23,7 +23,7 @@ You can run `node examples/staticserver.js` to try this out.
 
 See more details / ideas in the [Transflect](/mixint/Transflect) repository - Transflect is an extension of stream.Transform that allows you to safely open requisite streams to respond to requests while avoiding memory and file descriptor leaks.
 
-An example server where PassThrough (like Transform but without the _transform) is used to create a pipeline:
+An example server where PassThrough (like Transform but without the `_transform`) is used to create a pipeline:
 
 ```js
 // an example class that fails half the time
