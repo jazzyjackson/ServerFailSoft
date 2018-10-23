@@ -17,6 +17,7 @@ module.exports = class ServerFailSoft extends ServerResponse {
         this.once('pipe', source => {
             source.once('error', error => {
                 /* prepare error response: prettyprint with 2 space indent */
+                /* error.stack.split() just so lines appear on separate lines when pretty-printed */
                 /* NOTE: errObj may be empty but still carry a message when stringified */
                 let status = errorMap[ error.code ] || 500
                 let errorResponse = JSON.stringify({
@@ -25,8 +26,8 @@ module.exports = class ServerFailSoft extends ServerResponse {
                     errObj:   error,
                     errMesg:  error.toString(),
                     errStack: error.stack.split(os.EOL),
-                    method:   this.connection.parser.incoming.method,
-                    url:      this.connection.parser.incoming.url,
+                    method:   this.connection && this.connection.parser.incoming.method,
+                    url:      this.connection && this.connection.parser.incoming.url,
                     versions: process.versions,
                     platform: process.platform,
                     uid:      process.getuid    && process.getuid(),
