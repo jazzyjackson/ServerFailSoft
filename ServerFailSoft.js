@@ -39,7 +39,7 @@ module.exports = class ServerFailSoft extends ServerResponse {
                     'Content-Length': Buffer.byteLength(errorResponse),
                     'Content-Type': 'application/json',
                 })
-                this.writable && this.end(errorResponse)
+                this.writable ? this.end(errorResponse) : console.warn(error)
             })
         })
     }
