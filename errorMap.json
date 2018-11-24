@@ -1,6 +1,6 @@
 {
 	"ENOENT": 404,
 	"ENOTDIR": 404,
-	"EACCESS": 401,
+	"EACCES": 401,
 	"ERR_OUT_OF_RANGE": 416
 }
